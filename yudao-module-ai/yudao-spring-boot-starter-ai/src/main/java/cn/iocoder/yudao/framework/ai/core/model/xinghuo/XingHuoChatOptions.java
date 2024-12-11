@@ -19,6 +19,16 @@ import org.springframework.ai.chat.prompt.ChatOptions;
 @Builder
 public class XingHuoChatOptions implements ChatOptions {
 
+    /**
+     * <p><strong>截止目前的官方的模型版本:</strong>
+     * <p>
+     * <li>【lite】 -> Lite版本;
+     * <li>【generalv3】 -> Pro版本;
+     * <li>【pro-128k】 -> Pro-128K版本;
+     * <li>【generalv3.5】 -> Max版本;
+     * <li>【max-32k】 -> Max-32K版本;
+     * <li>【4.0Ultra】 -> 4.0 Ultra版本;
+     */
     public static final String MODEL_DEFAULT = "generalv3.5";
 
     /**

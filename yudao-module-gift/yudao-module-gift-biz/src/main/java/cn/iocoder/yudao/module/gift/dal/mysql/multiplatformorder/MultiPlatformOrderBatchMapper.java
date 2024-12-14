@@ -1,13 +1,11 @@
 package cn.iocoder.yudao.module.gift.dal.mysql.multiplatformorder;
 
-import java.util.*;
-
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
-import cn.iocoder.yudao.framework.mybatis.core.query.LambdaQueryWrapperX;
 import cn.iocoder.yudao.framework.mybatis.core.mapper.BaseMapperX;
+import cn.iocoder.yudao.framework.mybatis.core.query.LambdaQueryWrapperX;
+import cn.iocoder.yudao.module.gift.controller.admin.multiplatformorder.vo.MultiPlatformOrderBatchPageReqVO;
 import cn.iocoder.yudao.module.gift.dal.dataobject.multiplatformorder.MultiPlatformOrderBatchDO;
 import org.apache.ibatis.annotations.Mapper;
-import cn.iocoder.yudao.module.gift.controller.admin.multiplatformorder.vo.*;
 
 /**
  * 多平台订单处理批次 Mapper
@@ -21,7 +19,7 @@ public interface MultiPlatformOrderBatchMapper extends BaseMapperX<MultiPlatform
         return selectPage(reqVO, new LambdaQueryWrapperX<MultiPlatformOrderBatchDO>()
                 .eqIfPresent(MultiPlatformOrderBatchDO::getPlatformType, reqVO.getPlatformType())
                 .likeIfPresent(MultiPlatformOrderBatchDO::getPlatformName, reqVO.getPlatformName())
-                .betweenIfPresent(MultiPlatformOrderBatchDO::getStoreName, reqVO.getStoreName())
+                .eqIfPresent(MultiPlatformOrderBatchDO::getStoreName, reqVO.getStoreName())
                 .likeIfPresent(MultiPlatformOrderBatchDO::getFileUrl, reqVO.getFileUrl())
                 .likeIfPresent(MultiPlatformOrderBatchDO::getRemark, reqVO.getRemark())
                 .betweenIfPresent(MultiPlatformOrderBatchDO::getCreateTime, reqVO.getCreateTime())

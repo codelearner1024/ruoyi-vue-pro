@@ -16,6 +16,7 @@ import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.event.AnalysisEventListener;
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import jakarta.annotation.Resource;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -194,6 +195,18 @@ public class MultiPlatformOrderBatchServiceImpl implements MultiPlatformOrderBat
         // 更新
         multiPlatformOrder.setUpdater(null).setUpdateTime(null); // 解决更新情况下：updateTime 不更新
         multiPlatformOrderMapper.updateById(multiPlatformOrder);
+    }
+
+
+    @Override
+    public void batchUpdateMultiPlatformOrder(MultiPlatformOrderPageReqVO multiPlatformOrder) {
+
+        LambdaUpdateWrapper<MultiPlatformOrderDO> updateWrapper = new LambdaUpdateWrapper<>();
+        updateWrapper.set(MultiPlatformOrderDO::getProductSpecification,multiPlatformOrder.getProductSpecification())
+                .eq(MultiPlatformOrderDO::getOrderBatchId,multiPlatformOrder.getOrderBatchId())
+                .in(MultiPlatformOrderDO::getId,multiPlatformOrder.getIdList());
+
+        multiPlatformOrderMapper.update(updateWrapper);
     }
 
     @Override

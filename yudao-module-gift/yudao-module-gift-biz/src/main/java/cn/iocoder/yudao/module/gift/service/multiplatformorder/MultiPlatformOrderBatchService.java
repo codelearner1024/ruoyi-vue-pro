@@ -81,6 +81,12 @@ public interface MultiPlatformOrderBatchService {
     void updateMultiPlatformOrder(@Valid MultiPlatformOrderDO multiPlatformOrder);
 
     /**
+     * 批量更新
+     * @param multiPlatformOrder
+     */
+    void batchUpdateMultiPlatformOrder(MultiPlatformOrderPageReqVO multiPlatformOrder);
+
+    /**
      * 删除多平台订单
      *
      * @param id 编号

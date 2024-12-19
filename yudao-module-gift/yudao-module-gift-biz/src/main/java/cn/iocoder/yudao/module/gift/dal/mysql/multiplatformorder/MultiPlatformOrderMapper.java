@@ -44,6 +44,4 @@ public interface MultiPlatformOrderMapper extends BaseMapperX<MultiPlatformOrder
 
     int updateByPrimaryKey(MultiPlatformOrderDO record);
 
-
-
 }

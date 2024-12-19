@@ -115,6 +115,15 @@ public class MultiPlatformOrderBatchController {
         return success(true);
     }
 
+    @PutMapping("/multi-platform-order/batchUpdate")
+    @Operation(summary = "批量更新多平台订单")
+    @PreAuthorize("@ss.hasPermission('gift:multi-platform-order-batch:update')")
+    public CommonResult<Boolean> batchUpdateMultiPlatformOrder(@Validated(MultiPlatformOrderPageReqVO.BatchUpdate.class)
+                                                                   @RequestBody MultiPlatformOrderPageReqVO multiPlatformOrder) {
+        multiPlatformOrderBatchService.batchUpdateMultiPlatformOrder(multiPlatformOrder);
+        return success(true);
+    }
+
     @DeleteMapping("/multi-platform-order/delete")
     @Parameter(name = "id", description = "编号", required = true)
     @Operation(summary = "删除多平台订单")

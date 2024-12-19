@@ -23,8 +23,7 @@ public class MultiPlatformOrderBatchSaveReqVO {
     @NotEmpty(message = "店铺名称不能为空")
     private String storeName;
 
-    @Schema(description = "文件url", requiredMode = Schema.RequiredMode.REQUIRED, example = "https://www.iocoder.cn")
-    @NotEmpty(message = "文件url不能为空")
+    @Schema(description = "文件url", example = "https://www.iocoder.cn")
     private String fileUrl;
 
     @Schema(description = "备注", example = "你猜")

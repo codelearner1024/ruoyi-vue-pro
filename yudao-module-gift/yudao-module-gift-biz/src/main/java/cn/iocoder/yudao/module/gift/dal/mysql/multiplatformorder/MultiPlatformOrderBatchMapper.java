@@ -20,7 +20,7 @@ public interface MultiPlatformOrderBatchMapper extends BaseMapperX<MultiPlatform
                 .eqIfPresent(MultiPlatformOrderBatchDO::getPlatformType, reqVO.getPlatformType())
                 .likeIfPresent(MultiPlatformOrderBatchDO::getPlatformName, reqVO.getPlatformName())
                 .eqIfPresent(MultiPlatformOrderBatchDO::getStoreName, reqVO.getStoreName())
-                .likeIfPresent(MultiPlatformOrderBatchDO::getFileUrl, reqVO.getFileUrl())
+                .eqIfPresent(MultiPlatformOrderBatchDO::getFileUrl, reqVO.getFileUrl())
                 .likeIfPresent(MultiPlatformOrderBatchDO::getRemark, reqVO.getRemark())
                 .betweenIfPresent(MultiPlatformOrderBatchDO::getCreateTime, reqVO.getCreateTime())
                 .orderByDesc(MultiPlatformOrderBatchDO::getId));

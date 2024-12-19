@@ -1,15 +1,14 @@
 package cn.iocoder.yudao.module.gift.dal.dataobject.multiplatformorder;
 
-import lombok.*;
-import java.util.*;
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.math.BigDecimal;
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.time.LocalDateTime;
-import com.baomidou.mybatisplus.annotation.*;
 import cn.iocoder.yudao.framework.mybatis.core.dataobject.BaseDO;
+import com.baomidou.mybatisplus.annotation.KeySequence;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 /**
  * 多平台订单 DO
@@ -78,6 +77,7 @@ public class MultiPlatformOrderDO extends BaseDO {
     /**
      * 下单时间
      */
+    @NotNull(message = "订单创建时间不能为空")
     private LocalDateTime orderCreateTime;
     /**
      * 销售渠道SKU
@@ -149,5 +149,4 @@ public class MultiPlatformOrderDO extends BaseDO {
      * 扩展字段3
      */
     private String extFieldThree;
-
 }

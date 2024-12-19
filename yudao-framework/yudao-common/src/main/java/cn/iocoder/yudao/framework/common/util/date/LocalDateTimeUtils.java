@@ -8,11 +8,14 @@ import cn.hutool.core.util.StrUtil;
 import cn.iocoder.yudao.framework.common.enums.DateIntervalEnum;
 
 import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 时间工具类，用于 {@link java.time.LocalDateTime}
@@ -303,6 +306,56 @@ public class LocalDateTimeUtils {
                 return LocalDateTimeUtil.format(startTime, DatePattern.NORM_YEAR_PATTERN);
             default:
                 throw new IllegalArgumentException("Invalid interval: " + interval);
+        }
+    }
+
+    // 使用Map存储不同长度（包含空格也算长度）对应的日期格式列表
+    private static final Map<Integer, List<String>> DATE_FORMATS_BY_LENGTH = new HashMap<>();
+
+    static {
+        putDateFormat(5, "dd.MM", "MM.dd");
+        putDateFormat(7, "yyyy.MM", "MM.yyyy");
+        putDateFormat(10, "yyyy/MM/dd", "yyyy.MM.dd", "dd/MM/yyyy", "dd.MM.yyyy");
+        putDateFormat(12, "yyyy/M/d H:m","yyyy-M-d H:m");
+        putDateFormat(13, "yyyy/M/d H:mm","yyyy/M/d HH:m","yyyy-M-d H:mm","yyyy-M-d HH:m");
+        putDateFormat(14, "yyyy/M/d HH:mm","yyyy-M-d HH:mm");
+        putDateFormat(15, "yyyy/M/dd HH:mm","yyyy/MM/d HH:mm","yyyy-M-dd HH:mm","yyyy-MM-d HH:mm");
+        putDateFormat(16, "yyyy/MM/dd HH:mm", "yyyy.MM.dd HH:mm", "dd/MM/yyyy HH:mm", "dd.MM.yyyy HH:mm");
+        putDateFormat(19, "yyyy/MM/dd HH:mm:ss", "yyyy.MM.dd HH:mm:ss","dd/MM/yyyy HH:mm:ss", "dd.MM.yyyy HH:mm:ss");
+        putDateFormat(23, "yyyy/MM/dd HH:mm:ss.SSS", "yyyy.MM.dd HH:mm:ss.SSS","dd/MM/yyyy HH:mm:ss.SSS", "dd.MM.yyyy HH:mm:ss.SSS");
+    }
+
+    private static void putDateFormat(int length, String... formats) {
+        List<String> formatList = DATE_FORMATS_BY_LENGTH.getOrDefault(length, new ArrayList<>());
+        for (String format : formats) {
+            formatList.add(format);
+        }
+        DATE_FORMATS_BY_LENGTH.put(length, formatList);
+    }
+
+    public static LocalDateTime parseDate(String dateText) {
+        int textLength = dateText.length();
+        List<String> formats = DATE_FORMATS_BY_LENGTH.get(textLength);
+        if (formats!= null) {
+            for (String format : formats) {
+                try {
+                    return LocalDateTime.parse(dateText, DateTimeFormatter.ofPattern(format));
+                } catch (Exception e) {
+                    // 如果解析失败，继续尝试同组下一种格式
+                    continue;
+                }
+            }
+        }
+        return null;
+    }
+
+    public static void main(String[] args) {
+        String dateText = "2024-5-26 10:46";
+        LocalDateTime date = parseDate(dateText);
+        if (date!= null) {
+            System.out.println(date);
+        } else {
+            System.out.println("无法解析日期文本");
         }
     }
 

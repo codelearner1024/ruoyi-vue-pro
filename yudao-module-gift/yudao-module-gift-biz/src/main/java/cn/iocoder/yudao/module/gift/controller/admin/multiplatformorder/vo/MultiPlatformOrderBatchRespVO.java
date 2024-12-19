@@ -1,13 +1,13 @@
 package cn.iocoder.yudao.module.gift.controller.admin.multiplatformorder.vo;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
-import java.util.*;
-import org.springframework.format.annotation.DateTimeFormat;
-import java.time.LocalDateTime;
-import com.alibaba.excel.annotation.*;
 import cn.iocoder.yudao.framework.excel.core.annotations.DictFormat;
 import cn.iocoder.yudao.framework.excel.core.convert.DictConvert;
+import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
+import com.alibaba.excel.annotation.ExcelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
+
+import java.time.LocalDateTime;
 
 @Schema(description = "管理后台 - 多平台订单处理批次 Response VO")
 @Data
@@ -32,7 +32,7 @@ public class MultiPlatformOrderBatchRespVO {
     @DictFormat("gift_store_name") // TODO 代码优化：建议设置到对应的 DictTypeConstants 枚举类中
     private String storeName;
 
-    @Schema(description = "文件url", requiredMode = Schema.RequiredMode.REQUIRED, example = "https://www.iocoder.cn")
+    @Schema(description = "文件url", example = "https://www.iocoder.cn")
     @ExcelProperty("文件url")
     private String fileUrl;
 

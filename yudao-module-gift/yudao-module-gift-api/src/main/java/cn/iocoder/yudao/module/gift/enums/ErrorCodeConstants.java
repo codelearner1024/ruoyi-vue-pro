@@ -16,5 +16,6 @@ public interface ErrorCodeConstants {
 
     // ========== 多平台订单处理批次 ==========
     ErrorCode MULTI_PLATFORM_ORDER_BATCH_NOT_EXISTS = new ErrorCode(1_092_001_000, "多平台订单处理批次不存在");
-    ErrorCode MULTI_PLATFORM_ORDER_NOT_EXISTS = new ErrorCode(1_092_001_000, "多平台订单不存在");
+    ErrorCode MULTI_PLATFORM_ORDER_NOT_EXISTS = new ErrorCode(1_092_001_001, "多平台订单不存在");
+    ErrorCode MULTI_PLATFORM_ORDER_VALID_ERROR = new ErrorCode(1_092_001_002, "多平台订单解析错误:【{}】");
 }

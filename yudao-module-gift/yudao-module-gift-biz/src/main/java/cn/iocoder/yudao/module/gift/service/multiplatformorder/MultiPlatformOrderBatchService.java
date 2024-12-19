@@ -1,9 +1,9 @@
 package cn.iocoder.yudao.module.gift.service.multiplatformorder;
 
-import cn.iocoder.yudao.framework.common.pojo.PageParam;
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
 import cn.iocoder.yudao.module.gift.controller.admin.multiplatformorder.vo.MultiPlatformOrderBatchPageReqVO;
 import cn.iocoder.yudao.module.gift.controller.admin.multiplatformorder.vo.MultiPlatformOrderBatchSaveReqVO;
+import cn.iocoder.yudao.module.gift.controller.admin.multiplatformorder.vo.MultiPlatformOrderPageReqVO;
 import cn.iocoder.yudao.module.gift.dal.dataobject.multiplatformorder.MultiPlatformOrderBatchDO;
 import cn.iocoder.yudao.module.gift.dal.dataobject.multiplatformorder.MultiPlatformOrderDO;
 import jakarta.validation.Valid;
@@ -59,10 +59,11 @@ public interface MultiPlatformOrderBatchService {
      * 获得多平台订单分页
      *
      * @param pageReqVO 分页查询
-     * @param orderBatchId 订单处理批次号
      * @return 多平台订单分页
      */
-    PageResult<MultiPlatformOrderDO> getMultiPlatformOrderPage(PageParam pageReqVO, Long orderBatchId);
+    PageResult<MultiPlatformOrderDO> getMultiPlatformOrderPage(MultiPlatformOrderPageReqVO pageReqVO);
+
+    PageResult<MultiPlatformOrderDO> getMultiPlatformOrderPageByContent(MultiPlatformOrderPageReqVO pageReqVO);
 
     /**
      * 创建多平台订单

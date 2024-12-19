@@ -6,9 +6,7 @@ import cn.iocoder.yudao.framework.common.pojo.PageParam;
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
 import cn.iocoder.yudao.framework.common.util.object.BeanUtils;
 import cn.iocoder.yudao.framework.excel.core.util.ExcelUtils;
-import cn.iocoder.yudao.module.gift.controller.admin.multiplatformorder.vo.MultiPlatformOrderBatchPageReqVO;
-import cn.iocoder.yudao.module.gift.controller.admin.multiplatformorder.vo.MultiPlatformOrderBatchRespVO;
-import cn.iocoder.yudao.module.gift.controller.admin.multiplatformorder.vo.MultiPlatformOrderBatchSaveReqVO;
+import cn.iocoder.yudao.module.gift.controller.admin.multiplatformorder.vo.*;
 import cn.iocoder.yudao.module.gift.dal.dataobject.multiplatformorder.MultiPlatformOrderBatchDO;
 import cn.iocoder.yudao.module.gift.dal.dataobject.multiplatformorder.MultiPlatformOrderDO;
 import cn.iocoder.yudao.module.gift.service.multiplatformorder.MultiPlatformOrderBatchService;
@@ -97,9 +95,9 @@ public class MultiPlatformOrderBatchController {
     @Operation(summary = "获得多平台订单分页")
     @Parameter(name = "orderBatchId", description = "订单处理批次号")
     @PreAuthorize("@ss.hasPermission('gift:multi-platform-order-batch:query')")
-    public CommonResult<PageResult<MultiPlatformOrderDO>> getMultiPlatformOrderPage(PageParam pageReqVO,
-                                                                                        @RequestParam("orderBatchId") Long orderBatchId) {
-        return success(multiPlatformOrderBatchService.getMultiPlatformOrderPage(pageReqVO, orderBatchId));
+    public CommonResult<PageResult<MultiPlatformOrderRespVO>> getMultiPlatformOrderPage(@Valid MultiPlatformOrderPageReqVO orderPageReqVO) {
+        PageResult<MultiPlatformOrderDO> pageResult= multiPlatformOrderBatchService.getMultiPlatformOrderPage(orderPageReqVO);
+        return success(BeanUtils.toBean(pageResult,MultiPlatformOrderRespVO.class));
     }
 
     @PostMapping("/multi-platform-order/create")

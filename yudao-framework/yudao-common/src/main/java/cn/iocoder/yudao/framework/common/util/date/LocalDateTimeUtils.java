@@ -315,14 +315,14 @@ public class LocalDateTimeUtils {
     static {
         putDateFormat(5, "dd.MM", "MM.dd");
         putDateFormat(7, "yyyy.MM", "MM.yyyy");
-        putDateFormat(10, "yyyy/MM/dd", "yyyy.MM.dd", "dd/MM/yyyy", "dd.MM.yyyy");
+        putDateFormat(10, "yyyy-MM-dd","yyyy/MM/dd", "yyyy.MM.dd", "dd/MM/yyyy", "dd.MM.yyyy");
         putDateFormat(12, "yyyy/M/d H:m","yyyy-M-d H:m");
         putDateFormat(13, "yyyy/M/d H:mm","yyyy/M/d HH:m","yyyy-M-d H:mm","yyyy-M-d HH:m");
         putDateFormat(14, "yyyy/M/d HH:mm","yyyy-M-d HH:mm");
         putDateFormat(15, "yyyy/M/dd HH:mm","yyyy/MM/d HH:mm","yyyy-M-dd HH:mm","yyyy-MM-d HH:mm");
-        putDateFormat(16, "yyyy/MM/dd HH:mm", "yyyy.MM.dd HH:mm", "dd/MM/yyyy HH:mm", "dd.MM.yyyy HH:mm");
-        putDateFormat(19, "yyyy/MM/dd HH:mm:ss", "yyyy.MM.dd HH:mm:ss","dd/MM/yyyy HH:mm:ss", "dd.MM.yyyy HH:mm:ss");
-        putDateFormat(23, "yyyy/MM/dd HH:mm:ss.SSS", "yyyy.MM.dd HH:mm:ss.SSS","dd/MM/yyyy HH:mm:ss.SSS", "dd.MM.yyyy HH:mm:ss.SSS");
+        putDateFormat(16, "yyyy-MM-dd HH:mm","yyyy/MM/dd HH:mm", "yyyy.MM.dd HH:mm", "dd/MM/yyyy HH:mm", "dd.MM.yyyy HH:mm");
+        putDateFormat(19, "yyyy-MM-dd HH:mm:ss","yyyy/MM/dd HH:mm:ss", "yyyy.MM.dd HH:mm:ss","dd/MM/yyyy HH:mm:ss", "dd.MM.yyyy HH:mm:ss");
+        putDateFormat(23, "yyyy-MM-dd HH:mm:ss.SSS","yyyy/MM/dd HH:mm:ss.SSS", "yyyy.MM.dd HH:mm:ss.SSS","dd/MM/yyyy HH:mm:ss.SSS", "dd.MM.yyyy HH:mm:ss.SSS");
     }
 
     private static void putDateFormat(int length, String... formats) {

@@ -141,4 +141,16 @@ public class MultiPlatformOrderBatchController {
 	    return success(multiPlatformOrderBatchService.getMultiPlatformOrder(id));
 	}
 
+    @GetMapping("/multi-platform-order/export-excel")
+    @Operation(summary = "导出多平台订单处理批次对应的明细 Excel")
+    @PreAuthorize("@ss.hasPermission('gift:multi-platform-order-batch:export')")
+    @ApiAccessLog(operateType = EXPORT)
+    public void exportMultiPlatformOrderBatchDetailExcel(@Valid MultiPlatformOrderPageReqVO pageReqVO,
+                                                   HttpServletResponse response) throws IOException {
+        pageReqVO.setPageSize(PageParam.PAGE_SIZE_NONE);
+        List<MultiPlatformOrderDO> list = multiPlatformOrderBatchService.getMultiPlatformOrderPage(pageReqVO).getList();
+        // 导出 Excel
+        ExcelUtils.write(response, "转礼卡系统-订单批次.xls", "sheet1", MultiPlatformOrderRespVO.class,
+                BeanUtils.toBean(list, MultiPlatformOrderRespVO.class));
+    }
 }

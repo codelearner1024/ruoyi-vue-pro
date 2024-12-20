@@ -34,12 +34,6 @@
             <result property="extFieldOne" column="ext_field_one" jdbcType="VARCHAR"/>
             <result property="extFieldTwo" column="ext_field_two" jdbcType="VARCHAR"/>
             <result property="extFieldThree" column="ext_field_three" jdbcType="VARCHAR"/>
-            <result property="tenantId" column="tenant_id" jdbcType="BIGINT"/>
-            <result property="creator" column="creator" jdbcType="VARCHAR"/>
-            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
-            <result property="updater" column="updater" jdbcType="VARCHAR"/>
-            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
-            <result property="deleted" column="deleted" jdbcType="BIT"/>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -112,9 +106,7 @@
         ,quantity,total_amount,express_tracking_number
         ,sales_channel,platform_type,platform_name
         ,store_name,origin_config,ext_field_one
-        ,ext_field_two,ext_field_three,tenant_id
-        ,creator,create_time,updater
-        ,update_time,deleted)
+        ,ext_field_two,ext_field_three)
         values (#{id,jdbcType=BIGINT},#{orderBatchId,jdbcType=BIGINT},#{orderNo,jdbcType=VARCHAR}
         ,#{recipientName,jdbcType=VARCHAR},#{recipientNickname,jdbcType=VARCHAR},#{recipientPhone,jdbcType=VARCHAR}
         ,#{recipientProvince,jdbcType=VARCHAR},#{recipientCity,jdbcType=VARCHAR},#{recipientArea,jdbcType=VARCHAR}
@@ -124,9 +116,7 @@
         ,#{quantity,jdbcType=INTEGER},#{totalAmount,jdbcType=DECIMAL},#{expressTrackingNumber,jdbcType=VARCHAR}
         ,#{salesChannel,jdbcType=VARCHAR},#{platformType,jdbcType=TINYINT},#{platformName,jdbcType=VARCHAR}
         ,#{storeName,jdbcType=VARCHAR},#{originConfig,jdbcType=OTHER},#{extFieldOne,jdbcType=VARCHAR}
-        ,#{extFieldTwo,jdbcType=VARCHAR},#{extFieldThree,jdbcType=VARCHAR},#{tenantId,jdbcType=BIGINT}
-        ,#{creator,jdbcType=VARCHAR},#{createTime,jdbcType=TIMESTAMP},#{updater,jdbcType=VARCHAR}
-        ,#{updateTime,jdbcType=TIMESTAMP},#{deleted,jdbcType=BIT})
+        ,#{extFieldTwo,jdbcType=VARCHAR},#{extFieldThree,jdbcType=VARCHAR})
     </insert>
     <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="cn.iocoder.yudao.module.gift.dal.dataobject.multiplatformorder.MultiPlatformOrderDO" useGeneratedKeys="true">
         insert into gift_multi_platform_order
@@ -160,12 +150,6 @@
                 <if test="extFieldOne != null">ext_field_one,</if>
                 <if test="extFieldTwo != null">ext_field_two,</if>
                 <if test="extFieldThree != null">ext_field_three,</if>
-                <if test="tenantId != null">tenant_id,</if>
-                <if test="creator != null">creator,</if>
-                <if test="createTime != null">create_time,</if>
-                <if test="updater != null">updater,</if>
-                <if test="updateTime != null">update_time,</if>
-                <if test="deleted != null">deleted,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
                 <if test="id != null">#{id,jdbcType=BIGINT},</if>
@@ -197,12 +181,6 @@
                 <if test="extFieldOne != null">#{extFieldOne,jdbcType=VARCHAR},</if>
                 <if test="extFieldTwo != null">#{extFieldTwo,jdbcType=VARCHAR},</if>
                 <if test="extFieldThree != null">#{extFieldThree,jdbcType=VARCHAR},</if>
-                <if test="tenantId != null">#{tenantId,jdbcType=BIGINT},</if>
-                <if test="creator != null">#{creator,jdbcType=VARCHAR},</if>
-                <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP},</if>
-                <if test="updater != null">#{updater,jdbcType=VARCHAR},</if>
-                <if test="updateTime != null">#{updateTime,jdbcType=TIMESTAMP},</if>
-                <if test="deleted != null">#{deleted,jdbcType=BIT},</if>
         </trim>
     </insert>
     <update id="updateByPrimaryKeySelective" parameterType="cn.iocoder.yudao.module.gift.dal.dataobject.multiplatformorder.MultiPlatformOrderDO">
@@ -292,24 +270,6 @@
                 <if test="extFieldThree != null">
                     ext_field_three = #{extFieldThree,jdbcType=VARCHAR},
                 </if>
-                <if test="tenantId != null">
-                    tenant_id = #{tenantId,jdbcType=BIGINT},
-                </if>
-                <if test="creator != null">
-                    creator = #{creator,jdbcType=VARCHAR},
-                </if>
-                <if test="createTime != null">
-                    create_time = #{createTime,jdbcType=TIMESTAMP},
-                </if>
-                <if test="updater != null">
-                    updater = #{updater,jdbcType=VARCHAR},
-                </if>
-                <if test="updateTime != null">
-                    update_time = #{updateTime,jdbcType=TIMESTAMP},
-                </if>
-                <if test="deleted != null">
-                    deleted = #{deleted,jdbcType=BIT},
-                </if>
         </set>
         where   id = #{id,jdbcType=BIGINT} 
     </update>
@@ -343,13 +303,7 @@
             origin_config =  #{originConfig,jdbcType=OTHER},
             ext_field_one =  #{extFieldOne,jdbcType=VARCHAR},
             ext_field_two =  #{extFieldTwo,jdbcType=VARCHAR},
-            ext_field_three =  #{extFieldThree,jdbcType=VARCHAR},
-            tenant_id =  #{tenantId,jdbcType=BIGINT},
-            creator =  #{creator,jdbcType=VARCHAR},
-            create_time =  #{createTime,jdbcType=TIMESTAMP},
-            updater =  #{updater,jdbcType=VARCHAR},
-            update_time =  #{updateTime,jdbcType=TIMESTAMP},
-            deleted =  #{deleted,jdbcType=BIT}
-        where   id = #{id,jdbcType=BIGINT} 
+            ext_field_three =  #{extFieldThree,jdbcType=VARCHAR}
+        where   id = #{id,jdbcType=BIGINT}
     </update>
 </mapper>

@@ -105,7 +105,7 @@ public class MultiPlatformOrderBatchServiceImpl implements MultiPlatformOrderBat
         multiPlatformOrderDO.setRecipientAddress(data.get(4));
         multiPlatformOrderDO.setRemark(data.get(5));
         multiPlatformOrderDO.setOrderAmount(new BigDecimal(data.get(6)));
-        multiPlatformOrderDO.setOrderCreateTime(LocalDateTimeUtils.parseDate(data.get(7)));
+        multiPlatformOrderDO.setOrderCreateTime(StringUtils.isNotBlank(data.get(7)) ? LocalDateTimeUtils.parseDate(data.get(7)) : null);
         multiPlatformOrderDO.setSalesChannelSku(data.get(8));
         multiPlatformOrderDO.setProductSpecification(data.get(9));// 品规最终不得为空,但是不用平台的品规确定时间不一致,因此,此处不校验
         multiPlatformOrderDO.setItemId(data.get(10));

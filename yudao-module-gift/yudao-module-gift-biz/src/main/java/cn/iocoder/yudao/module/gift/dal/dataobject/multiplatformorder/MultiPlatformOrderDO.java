@@ -4,7 +4,6 @@ import cn.iocoder.yudao.framework.mybatis.core.dataobject.BaseDO;
 import com.baomidou.mybatisplus.annotation.KeySequence;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -77,7 +76,7 @@ public class MultiPlatformOrderDO extends BaseDO {
     /**
      * 下单时间
      */
-    @NotNull(message = "订单创建时间不能为空")
+//    @NotNull(message = "订单创建时间不能为空",groups = Add.class)
     private LocalDateTime orderCreateTime;
     /**
      * 销售渠道SKU

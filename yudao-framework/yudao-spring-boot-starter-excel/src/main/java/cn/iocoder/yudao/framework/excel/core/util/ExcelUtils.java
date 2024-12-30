@@ -31,7 +31,7 @@ public class ExcelUtils {
      * @throws IOException 写入失败的情况
      */
     public static <T> void write(HttpServletResponse response, String filename, String sheetName,
-                                 Class<T> head, List<T> data) throws IOException {
+                                 Class<T> head, List<T> data,String contentType) throws IOException {
         // 输出 Excel
         EasyExcel.write(response.getOutputStream(), head)
                 .autoCloseStream(false) // 不要自动关闭，交给 Servlet 自己处理
@@ -41,8 +41,21 @@ public class ExcelUtils {
                 .sheet(sheetName).doWrite(data);
         // 设置 header 和 contentType。写在最后的原因是，避免报错时，响应 contentType 已经被修改了
         response.addHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(filename, StandardCharsets.UTF_8.name()));
-        response.setContentType("application/vnd.ms-excel;charset=UTF-8");
+        response.setContentType(contentType);
     }
+    public static <T> void write(HttpServletResponse response, String filename, String sheetName,
+                                 Class<T> head, List<T> data) throws IOException {
+        write(response,filename,sheetName,head,data,"application/vnd.ms-excel;charset=UTF-8");
+    }
+
+//    public static void download(String fileName, byte[] fileBytes, HttpServletResponse response) throws IOException {
+//            response.setHeader("Content-Disposition", "attachment;filename=" + URLUtil.encode(fileName));
+//            response.addHeader("Content-Length", "" + fileBytes.length);
+//            response.setHeader("Access-Control-Allow-Origin", "*");
+//            response.setHeader("Access-Control-Expose-Headers", "Content-Disposition");
+//            response.setContentType("application/octet-stream;charset=UTF-8");
+//            IoUtil.write(response.getOutputStream(), true, fileBytes);
+//    }
 
     public static <T> List<T> read(MultipartFile file, Class<T> head) throws IOException {
         return EasyExcel.read(file.getInputStream(), head, null)

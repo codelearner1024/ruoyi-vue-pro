@@ -150,7 +150,7 @@ public class MultiPlatformOrderBatchController {
         pageReqVO.setPageSize(PageParam.PAGE_SIZE_NONE);
         List<MultiPlatformOrderDO> list = multiPlatformOrderBatchService.getMultiPlatformOrderPage(pageReqVO).getList();
         // 导出 Excel
-        ExcelUtils.write(response, "转礼卡系统-订单批次.xls", "sheet1", MultiPlatformOrderRespVO.class,
-                BeanUtils.toBean(list, MultiPlatformOrderRespVO.class));
+        ExcelUtils.write(response, "转礼卡系统-订单批次.xls", "Sheet1", MultiPlatformOrderRespVO.class,
+                BeanUtils.toBean(list, MultiPlatformOrderRespVO.class),"application/octet-stream;charset=UTF-8");
     }
 }

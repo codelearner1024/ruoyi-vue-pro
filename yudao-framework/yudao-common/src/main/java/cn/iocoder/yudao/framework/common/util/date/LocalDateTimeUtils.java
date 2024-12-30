@@ -312,6 +312,8 @@ public class LocalDateTimeUtils {
     // 使用Map存储不同长度（包含空格也算长度）对应的日期格式列表
     private static final Map<Integer, List<String>> DATE_FORMATS_BY_LENGTH = new HashMap<>();
 
+    public static final String YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd HH:mm:ss";
+
     static {
         putDateFormat(5, "dd.MM", "MM.dd");
         putDateFormat(7, "yyyy.MM", "MM.yyyy");
@@ -321,7 +323,7 @@ public class LocalDateTimeUtils {
         putDateFormat(14, "yyyy/M/d HH:mm","yyyy-M-d HH:mm");
         putDateFormat(15, "yyyy/M/dd HH:mm","yyyy/MM/d HH:mm","yyyy-M-dd HH:mm","yyyy-MM-d HH:mm");
         putDateFormat(16, "yyyy-MM-dd HH:mm","yyyy/MM/dd HH:mm", "yyyy.MM.dd HH:mm", "dd/MM/yyyy HH:mm", "dd.MM.yyyy HH:mm");
-        putDateFormat(19, "yyyy-MM-dd HH:mm:ss","yyyy/MM/dd HH:mm:ss", "yyyy.MM.dd HH:mm:ss","dd/MM/yyyy HH:mm:ss", "dd.MM.yyyy HH:mm:ss");
+        putDateFormat(19, YYYY_MM_DD_HH_MM_SS,"yyyy/MM/dd HH:mm:ss", "yyyy.MM.dd HH:mm:ss","dd/MM/yyyy HH:mm:ss", "dd.MM.yyyy HH:mm:ss");
         putDateFormat(23, "yyyy-MM-dd HH:mm:ss.SSS","yyyy/MM/dd HH:mm:ss.SSS", "yyyy.MM.dd HH:mm:ss.SSS","dd/MM/yyyy HH:mm:ss.SSS", "dd.MM.yyyy HH:mm:ss.SSS");
     }
 

@@ -1,5 +1,7 @@
 package cn.iocoder.yudao.framework.excel.core.util;
 
+import cn.hutool.core.io.IoUtil;
+import cn.hutool.core.util.URLUtil;
 import cn.iocoder.yudao.framework.excel.core.handler.SelectSheetWriteHandler;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.converters.longconverter.LongStringConverter;
@@ -48,14 +50,14 @@ public class ExcelUtils {
         write(response,filename,sheetName,head,data,"application/vnd.ms-excel;charset=UTF-8");
     }
 
-//    public static void download(String fileName, byte[] fileBytes, HttpServletResponse response) throws IOException {
-//            response.setHeader("Content-Disposition", "attachment;filename=" + URLUtil.encode(fileName));
-//            response.addHeader("Content-Length", "" + fileBytes.length);
-//            response.setHeader("Access-Control-Allow-Origin", "*");
-//            response.setHeader("Access-Control-Expose-Headers", "Content-Disposition");
-//            response.setContentType("application/octet-stream;charset=UTF-8");
-//            IoUtil.write(response.getOutputStream(), true, fileBytes);
-//    }
+    public static void download(String fileName, byte[] fileBytes, HttpServletResponse response) throws IOException {
+            response.setHeader("Content-Disposition", "attachment;filename=" + URLUtil.encode(fileName));
+            response.addHeader("Content-Length", "" + fileBytes.length);
+            response.setHeader("Access-Control-Allow-Origin", "*");
+            response.setHeader("Access-Control-Expose-Headers", "Content-Disposition");
+            response.setContentType("application/octet-stream;charset=UTF-8");
+            IoUtil.write(response.getOutputStream(), true, fileBytes);
+    }
 
     public static <T> List<T> read(MultipartFile file, Class<T> head) throws IOException {
         return EasyExcel.read(file.getInputStream(), head, null)

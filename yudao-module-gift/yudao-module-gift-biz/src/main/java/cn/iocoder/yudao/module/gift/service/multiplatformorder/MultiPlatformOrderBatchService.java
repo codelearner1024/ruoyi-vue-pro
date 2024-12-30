@@ -6,7 +6,10 @@ import cn.iocoder.yudao.module.gift.controller.admin.multiplatformorder.vo.Multi
 import cn.iocoder.yudao.module.gift.controller.admin.multiplatformorder.vo.MultiPlatformOrderPageReqVO;
 import cn.iocoder.yudao.module.gift.dal.dataobject.multiplatformorder.MultiPlatformOrderBatchDO;
 import cn.iocoder.yudao.module.gift.dal.dataobject.multiplatformorder.MultiPlatformOrderDO;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+
+import java.io.IOException;
 
 /**
  * 多平台订单处理批次 Service 接口
@@ -101,4 +104,11 @@ public interface MultiPlatformOrderBatchService {
 	 */
     MultiPlatformOrderDO getMultiPlatformOrder(Long id);
 
+    /**
+     * 导出礼卡系统能兼容的excel 格式
+     *
+     * @param pageReqVO
+     * @param response
+     */
+    void exportMultiPlatformOrderBatchDetailExcel(MultiPlatformOrderPageReqVO pageReqVO, HttpServletResponse response) throws IOException;
 }

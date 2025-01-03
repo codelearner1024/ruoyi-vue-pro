@@ -1,6 +1,7 @@
 package cn.iocoder.yudao.module.bpm.framework.flowable.core.util;
 
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.extra.spring.SpringUtil;
 import cn.iocoder.yudao.framework.tenant.core.context.TenantContextHolder;
 import cn.iocoder.yudao.framework.tenant.core.util.TenantUtils;
 import cn.iocoder.yudao.module.bpm.framework.flowable.core.enums.BpmnVariableConstants;
@@ -8,6 +9,8 @@ import org.flowable.common.engine.api.delegate.Expression;
 import org.flowable.common.engine.api.variable.VariableContainer;
 import org.flowable.common.engine.impl.el.ExpressionManager;
 import org.flowable.common.engine.impl.identity.Authentication;
+import org.flowable.common.engine.impl.variable.MapDelegateVariableContainer;
+import org.flowable.engine.ManagementService;
 import org.flowable.engine.ProcessEngineConfiguration;
 import org.flowable.engine.history.HistoricProcessInstance;
 import org.flowable.engine.impl.cfg.ProcessEngineConfigurationImpl;
@@ -19,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.Callable;
 
 /**
  * Flowable 相关的工具方法
@@ -35,6 +39,17 @@ public class FlowableUtils {
 
     public static void clearAuthenticatedUserId() {
         Authentication.setAuthenticatedUserId(null);
+    }
+
+    public static <V> V executeAuthenticatedUserId(Long userId, Callable<V> callable) {
+        setAuthenticatedUserId(userId);
+        try {
+            return callable.call();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            clearAuthenticatedUserId();
+        }
     }
 
     public static String getTenantId() {
@@ -95,15 +110,35 @@ public class FlowableUtils {
     }
 
     /**
+     * 获得流程实例的审批原因
+     *
+     * @param processInstance 流程实例
+     * @return 审批原因
+     */
+    public static String getProcessInstanceReason(HistoricProcessInstance processInstance) {
+        return (String) processInstance.getProcessVariables().get(BpmnVariableConstants.PROCESS_INSTANCE_VARIABLE_REASON);
+    }
+
+    /**
+     * 获得流程实例的表单
+     *
+     * @param processInstance 流程实例
+     * @return 表单
+     */
+    public static Map<String, Object> getProcessInstanceFormVariable(ProcessInstance processInstance) {
+        Map<String, Object> processVariables = new HashMap<>(processInstance.getProcessVariables());
+        return filterProcessInstanceFormVariable(processVariables);
+    }
+
+    /**
      * 获得流程实例的表单
      *
      * @param processInstance 流程实例
      * @return 表单
      */
     public static Map<String, Object> getProcessInstanceFormVariable(HistoricProcessInstance processInstance) {
-        Map<String, Object> formVariables = new HashMap<>(processInstance.getProcessVariables());
-        filterProcessInstanceFormVariable(formVariables);
-        return formVariables;
+        Map<String, Object> processVariables = new HashMap<>(processInstance.getProcessVariables());
+        return filterProcessInstanceFormVariable(processVariables);
     }
 
     /**
@@ -125,9 +160,22 @@ public class FlowableUtils {
      * @param processInstance 流程实例
      * @return 发起用户选择的审批人 Map
      */
-    @SuppressWarnings("unchecked")
     public static Map<String, List<Long>> getStartUserSelectAssignees(ProcessInstance processInstance) {
-        return (Map<String, List<Long>>) processInstance.getProcessVariables().get(
+        return processInstance != null ? getStartUserSelectAssignees(processInstance.getProcessVariables()) : null;
+    }
+
+    /**
+     * 获得流程实例的发起用户选择的审批人 Map
+     *
+     * @param processVariables 流程变量
+     * @return 发起用户选择的审批人 Map
+     */
+    @SuppressWarnings("unchecked")
+    public static Map<String, List<Long>> getStartUserSelectAssignees(Map<String, Object> processVariables) {
+        if (processVariables == null) {
+            return null;
+        }
+        return (Map<String, List<Long>>) processVariables.get(
                 BpmnVariableConstants.PROCESS_INSTANCE_VARIABLE_START_USER_SELECT_ASSIGNEES);
     }
 
@@ -181,13 +229,30 @@ public class FlowableUtils {
 
     // ========== Expression 相关的工具方法 ==========
 
-    public static Object getExpressionValue(VariableContainer variableContainer, String expressionString) {
-        ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration();
-        assert processEngineConfiguration != null;
+    private static Object getExpressionValue(VariableContainer variableContainer, String expressionString,
+                                             ProcessEngineConfigurationImpl processEngineConfiguration) {
+        assert processEngineConfiguration!= null;
         ExpressionManager expressionManager = processEngineConfiguration.getExpressionManager();
-        assert expressionManager != null;
+        assert expressionManager!= null;
         Expression expression = expressionManager.createExpression(expressionString);
         return expression.getValue(variableContainer);
+    }
+
+    public static Object getExpressionValue(VariableContainer variableContainer, String expressionString) {
+        ProcessEngineConfigurationImpl processEngineConfiguration = CommandContextUtil.getProcessEngineConfiguration();
+        if (processEngineConfiguration != null) {
+            return getExpressionValue(variableContainer, expressionString, processEngineConfiguration);
+        }
+        // 如果 ProcessEngineConfigurationImpl 获取不到，则需要通过 ManagementService 来获取
+        ManagementService managementService = SpringUtil.getBean(ManagementService.class);
+        assert managementService != null;
+        return managementService.executeCommand(context ->
+                getExpressionValue(variableContainer, expressionString, CommandContextUtil.getProcessEngineConfiguration()));
+    }
+
+    public static Object getExpressionValue(Map<String, Object> variable, String expressionString) {
+        VariableContainer variableContainer = new MapDelegateVariableContainer(variable, VariableContainer.empty());
+        return getExpressionValue(variableContainer, expressionString);
     }
 
 }
